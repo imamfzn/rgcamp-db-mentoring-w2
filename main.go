@@ -16,10 +16,10 @@ func printEmployees(emps []model.Employee) {
 
 func main() {
 	credential := db.Credential{
-		Host:         "db.fznlabs.xyz",
-		Username:     "usr_mentoring",
-		Password:     "lupalagi",
-		DatabaseName: "db_mentoring_w2",
+		Host:         "",
+		Username:     "",
+		Password:     "",
+		DatabaseName: "",
 		Port:         5432,
 	}
 

@@ -25,3 +25,9 @@ type Room struct {
 	Code  string `gorm:"type:varchar(10);unique_index"`
 	Level int    `gorm:"not null"`
 }
+
+type EmployeeRoom struct {
+	Name  string
+	Code  string
+	Level int
+}

@@ -57,7 +57,18 @@ func (r *Repository) GetAllEmployeeByRoomId(roomId int) ([]model.Employee, error
 }
 
 func (r *Repository) GetAverageSalaryByRoomLevel(level int) (float64, error) {
-	return 0.0, nil
+	var avg float64
+	tx := r.db.Table("employees e").
+		Select("avg(salary)").
+		Joins("join departments d on d.id = e.department_id").
+		Joins("join rooms r on r.id = d.room_id").
+		Where("level = ?", level).
+		Scan(&avg)
+	if tx.Error != nil {
+		return 0.0, tx.Error
+	}
+
+	return avg, nil
 }
 
 func (r *Repository) GetEmptyRooms() ([]model.Room, error) {
