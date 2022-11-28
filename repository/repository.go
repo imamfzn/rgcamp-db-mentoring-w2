@@ -15,15 +15,45 @@ func NewRepo(db *gorm.DB) *Repository {
 }
 
 func (r *Repository) GetAllEmployeeNameBySalaryRange(start, end int) ([]string, error) {
-	return nil, nil
+	rows := []string{}
+	// tx := r.db.Raw("select name from employees where salary between ? AND ?", start, end).Scan(&rows)
+	tx := r.db.Table("employees").Select("name").Where("salary BETWEEN ? AND ?", start, end).Scan(&rows)
+	if tx.Error != nil {
+		return nil, tx.Error
+	}
+	return rows, nil
 }
 
+// select *
+// from employees e
+// join departments d on d.id = e.department_id
+// WHERE d.name = 'Finance'
 func (r *Repository) GetAllEmployeeByDepartmentName(department string) ([]model.Employee, error) {
-	return nil, nil
+	emps := []model.Employee{}
+	tx := r.db.Table("employees e").
+		Select("e.*").
+		Joins("join departments d on d.id = e.department_id").
+		Where("d.name = ?", department).
+		Scan(&emps)
+
+	if tx.Error != nil {
+		return nil, tx.Error
+	}
+	return emps, nil
 }
 
 func (r *Repository) GetAllEmployeeByRoomId(roomId int) ([]model.Employee, error) {
-	return nil, nil
+	emps := []model.Employee{}
+	tx := r.db.Table("employees e").
+		Select("e.*").
+		Joins("join departments d on d.id = e.department_id").
+		Where("d.room_id = ?", roomId).
+		Scan(&emps)
+
+	if tx.Error != nil {
+		return nil, tx.Error
+	}
+	return emps, nil
 }
 
 func (r *Repository) GetAverageSalaryByRoomLevel(level int) (float64, error) {

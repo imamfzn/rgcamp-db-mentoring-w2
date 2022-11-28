@@ -16,10 +16,10 @@ func printEmployees(emps []model.Employee) {
 
 func main() {
 	credential := db.Credential{
-		Host:         "",
-		Username:     "",
-		Password:     "",
-		DatabaseName: "",
+		Host:         "db.fznlabs.xyz",
+		Username:     "usr_mentoring",
+		Password:     "lupalagi",
+		DatabaseName: "db_mentoring_w2",
 		Port:         5432,
 	}
 
@@ -35,8 +35,8 @@ func main() {
 
 	repo := repository.NewRepo(db)
 
-	start := 3000000
-	end := 5000000
+	start := 7000000
+	end := 10000000
 	names, err := repo.GetAllEmployeeNameBySalaryRange(start, end)
 	if err != nil {
 		panic(err)
@@ -53,7 +53,7 @@ func main() {
 	fmt.Printf("Employee di Department %s:\n", departmentName)
 	printEmployees(emps)
 
-	roomId := 3
+	roomId := 1
 	emps, err = repo.GetAllEmployeeByRoomId(roomId)
 	if err != nil {
 		panic(err)
